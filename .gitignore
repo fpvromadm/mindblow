@@ -1,0 +1,25 @@
+# Build output
+.build/
+build/
+*.app
+DerivedData/
+.swiftpm/
+Package.resolved
+
+# macOS
+.DS_Store
+
+# Local tooling and agent working files
+.claude/
+.playwright-mcp/
+docs/superpowers/
+scripts/inject
+scripts/inject.swift
+
+# Secrets, just in case
+.env
+.env.*
+*.pem
+*.p12
+*.key
+*.mobileprovision
