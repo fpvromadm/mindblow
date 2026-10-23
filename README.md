@@ -5,19 +5,19 @@ A native macOS mind-mapping app in the spirit of MindMeister. Built with SwiftUI
 ![platform](https://img.shields.io/badge/platform-macOS%2014%2B-blue)
 ![license](https://img.shields.io/badge/license-MIT-green)
 
-![MindBlow — a mind map of a trip to Japan, with colored branches, due dates, tags and a cross-link](docs/screenshots/map.png)
+![MindBlow — a mind map of a trip to Japan, with colored branches, due dates, tags and a cross-link](docs/screenshots/map.webp)
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/screenshots/details-dark.png" alt="Dark mode with the details panel: due date, tags, link and Markdown notes"></td>
-    <td width="50%"><img src="docs/screenshots/agenda.png" alt="Due-date agenda sidebar and the tag filter dimming everything but #booking"></td>
+    <td width="50%"><img src="docs/screenshots/details-dark.webp" alt="Dark mode with the details panel: due date, tags, link and Markdown notes"></td>
+    <td width="50%"><img src="docs/screenshots/agenda.webp" alt="Due-date agenda sidebar and the tag filter dimming everything but #booking"></td>
   </tr>
   <tr>
     <td align="center"><b>Details &amp; Markdown notes</b>, in dark mode</td>
     <td align="center"><b>Agenda &amp; tag filter</b></td>
   </tr>
   <tr>
-    <td colspan="2"><img src="docs/screenshots/outline.png" alt="The same map as an outline"></td>
+    <td colspan="2"><img src="docs/screenshots/outline.webp" alt="The same map as an outline"></td>
   </tr>
   <tr>
     <td colspan="2" align="center"><b>Outline view</b> of the same document</td>
@@ -73,7 +73,8 @@ For development: `swift build`, `swift run`, and `swift test` (running from the
 bundle is recommended so the `.mindblow` file type is registered).
 
 The screenshots above are rendered from a seeded demo map by the real editor
-in an offscreen window. To regenerate them:
+in an offscreen window, then shrunk to 1600px WebP (needs `brew install webp`).
+To regenerate them:
 
 ```sh
 MINDBLOW_SCREENSHOT_DIR=docs/screenshots swift test --filter ScreenshotTests

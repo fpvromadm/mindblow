@@ -80,8 +80,27 @@ final class ScreenshotTests: XCTestCase {
         let rep = try XCTUnwrap(frameView.bitmapImageRepForCachingDisplay(in: frameView.bounds))
         frameView.cacheDisplay(in: frameView.bounds, to: rep)
         let png = try XCTUnwrap(rep.representation(using: .png, properties: [:]))
-        try png.write(to: outputDir.appendingPathComponent("\(name).png"))
         window.close()
+        let raw = FileManager.default.temporaryDirectory.appendingPathComponent("\(name).png")
+        try png.write(to: raw)
+        defer { try? FileManager.default.removeItem(at: raw) }
+        try encodeWebP(raw, to: outputDir.appendingPathComponent("\(name).webp"))
+    }
+
+    /// The raw Retina capture is ~1.3 MB a shot. 1600px wide still covers the
+    /// README column at 2x, and lossy WebP keeps text crisp at ~50 KB.
+    private func encodeWebP(_ source: URL, to destination: URL) throws {
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/env")
+        process.arguments = ["cwebp", "-quiet", "-resize", "1600", "0", "-q", "82", "-m", "6",
+                             "-sharp_yuv", source.path, "-o", destination.path]
+        do { try process.run() } catch {
+            throw XCTSkip("cwebp not found — brew install webp")
+        }
+        process.waitUntilExit()
+        guard process.terminationStatus == 0 else {
+            throw XCTSkip("cwebp not found or failed (status \(process.terminationStatus)) — brew install webp")
+        }
     }
 }
 
