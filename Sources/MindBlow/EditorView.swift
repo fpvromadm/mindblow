@@ -83,6 +83,28 @@ struct EditorView: View {
     /// nil is the ordinary whole-document view.
     @State private var focusedRootID: UUID?
 
+    /// Where a freshly opened editor starts. The app always opens with the
+    /// defaults; the README screenshots seed the other views through it.
+    struct Presentation {
+        var viewMode: ViewMode = .map
+        var selection: UUID?
+        var showNotes = false
+        var showAgenda = false
+        var showFilterBar = false
+        var activeTags: Set<String> = []
+    }
+    private let presentation: Presentation
+
+    init(document: Binding<MindMapDocument>, presentation: Presentation = .init()) {
+        _document = document
+        self.presentation = presentation
+        _viewMode = State(initialValue: presentation.viewMode)
+        _showNotes = State(initialValue: presentation.showNotes)
+        _showAgenda = State(initialValue: presentation.showAgenda)
+        _showFilterBar = State(initialValue: presentation.showFilterBar)
+        _activeTags = State(initialValue: presentation.activeTags)
+    }
+
     /// Secondary selection. Empty for an ordinary single selection; otherwise
     /// it always contains `selection`, which stays the primary — the topic the
     /// inspector follows and the one arrow keys move from.
@@ -399,7 +421,7 @@ struct EditorView: View {
         .simultaneousGesture(magnifyGesture)
         .onDeleteCommand { deleteTargets() }
         .onAppear {
-            selection = document.root.id
+            selection = presentation.selection ?? document.root.id
             focus = .canvas
             startBenchmarkIfRequested()
         }
